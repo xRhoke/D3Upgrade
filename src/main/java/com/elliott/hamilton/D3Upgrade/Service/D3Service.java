@@ -1,9 +1,6 @@
 package com.elliott.hamilton.D3Upgrade.Service;
 
-import com.elliott.hamilton.D3Upgrade.Model.BlizzardAccessToken;
-import com.elliott.hamilton.D3Upgrade.Model.D3Profile;
-import com.elliott.hamilton.D3Upgrade.Model.EquipmentSet;
-import com.elliott.hamilton.D3Upgrade.Model.Hero;
+import com.elliott.hamilton.D3Upgrade.Model.*;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -39,6 +36,14 @@ public class D3Service {
                 EquipmentSet.class).getBody();
     }
 
+    public FollowerList getHeroFollowerItems(String battleTag, Long heroID, BlizzardAccessToken accessToken) {
+        return this.restTemplate.exchange(
+                String.format("https://us.api.blizzard.com/d3/profile/%s/hero/%s/follower-items", battleTag, heroID),
+                HttpMethod.GET,
+                buildHttpEntityWithAuthHeader(accessToken),
+                FollowerList.class).getBody();
+    }
+
     private HttpEntity<String> buildHttpEntityWithAuthHeader(BlizzardAccessToken accessToken){
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", String.format("Bearer %s", accessToken.getAccessToken()));
@@ -46,6 +51,7 @@ public class D3Service {
 
         return new HttpEntity<>(null, headers);
     }
+
 
 
 }

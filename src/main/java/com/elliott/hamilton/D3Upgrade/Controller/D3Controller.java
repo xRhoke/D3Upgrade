@@ -1,9 +1,6 @@
 package com.elliott.hamilton.D3Upgrade.Controller;
 
-import com.elliott.hamilton.D3Upgrade.Model.BlizzardAccessToken;
-import com.elliott.hamilton.D3Upgrade.Model.D3Profile;
-import com.elliott.hamilton.D3Upgrade.Model.EquipmentSet;
-import com.elliott.hamilton.D3Upgrade.Model.Hero;
+import com.elliott.hamilton.D3Upgrade.Model.*;
 import com.elliott.hamilton.D3Upgrade.Service.AuthService;
 import com.elliott.hamilton.D3Upgrade.Service.D3Service;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +39,12 @@ public class D3Controller {
     public EquipmentSet getHeroItems(@PathVariable String battleTag, @PathVariable Long heroID){
         validateAccessToken();
         return this.d3Service.getHeroItems(battleTag, heroID, this.accessToken);
+    }
+
+    @GetMapping("/profile/{battleTag}/hero/{heroID}/follower-items")
+    public FollowerList getHeroFollowerItems(@PathVariable String battleTag, @PathVariable Long heroID){
+        validateAccessToken();
+        return this.d3Service.getHeroFollowerItems(battleTag, heroID, this.accessToken);
     }
 
     private void validateAccessToken() {
